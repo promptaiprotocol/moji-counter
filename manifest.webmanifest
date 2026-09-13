@@ -1,0 +1,24 @@
+{
+  "name": "カチッと文字数カウンター",
+  "short_name": "文字数",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf4fc",
+  "theme_color": "#d9eafa",
+  "description": "文章をリアルタイムでカウント。B6・A5判型寸法も確認できる文字数カウンター。",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
