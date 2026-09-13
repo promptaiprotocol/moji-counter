@@ -106,11 +106,24 @@
       font-size:13px;font-weight:800;transition:.2s;z-index:20;pointer-events:none
     }
     .toast.show{opacity:1;transform:translate(-50%,0)}
+
+    .page-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .page-card{
+      display:flex;justify-content:space-between;align-items:center;gap:14px;
+      border:1px solid var(--line);border-radius:18px;background:#fff;padding:16px
+    }
+    .page-title{display:block;font-size:17px;font-weight:900}
+    .page-sub{display:block;margin-top:4px;font-size:12px;color:var(--muted);font-weight:700}
+    .page-size{display:block;margin-top:7px;font-size:11px;color:#6e8093;font-weight:800}
+    .page-value{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+    .page-value b{font-size:34px;line-height:1}
+    .page-value span{font-size:13px;color:var(--muted);font-weight:800}
+
     @media(max-width:650px){
       .wrap{padding:12px 10px 62px}
       .card{padding:14px;border-radius:19px}
       .counter-grid{grid-template-columns:1fr 1fr}
-      .formats{grid-template-columns:1fr}
+      .page-grid{grid-template-columns:1fr}
       textarea{min-height:260px}
     }
   </style>
@@ -150,6 +163,25 @@
       <div class="counter"><span class="label">UTF-8バイト数</span><b id="byteCount">0</b></div>
     </div>
 
+    <div class="page-grid">
+      <div class="page-card">
+        <div>
+          <span class="page-title">B6ページ目安</span>
+          <span class="page-sub">570字 / ページ想定</span>
+          <span class="page-size">B6：128mm × 182mm</span>
+        </div>
+        <div class="page-value"><b id="b6Pages">0</b><span>ページ</span></div>
+      </div>
+      <div class="page-card">
+        <div>
+          <span class="page-title">A5ページ目安</span>
+          <span class="page-sub">680字 / ページ想定</span>
+          <span class="page-size">A5：148mm × 210mm</span>
+        </div>
+        <div class="page-value"><b id="a5Pages">0</b><span>ページ</span></div>
+      </div>
+    </div>
+
     <div class="goal-row">
       <div>
         <div class="goal-label">🎯 目標文字数</div>
@@ -160,25 +192,7 @@
     <div class="progress"><div id="goalBar" class="bar"></div></div>
     <div id="goalText" class="progress-text">0 / 1000字</div>
   </section>
-
-  <section class="card">
-    <div class="head"><h2>📐 判型の目安</h2></div>
-    <div class="formats">
-      <div class="format">
-        <h3>B6</h3>
-        <div class="dimension">128mm × 182mm</div>
-        <div class="note">文庫より少し大きめの判型。小説・実用書などで見かけるサイズです。</div>
-      </div>
-      <div class="format">
-        <h3>A5</h3>
-        <div class="dimension">148mm × 210mm</div>
-        <div class="note">B6よりひと回り大きめ。実用書・同人誌・資料などにも使われるサイズです。</div>
-      </div>
-    </div>
-    <div class="note">※ 1ページに入る文字数は、フォントサイズ・行間・余白・縦書き/横書きなどで変わります。ここでは判型寸法のみを表示しています。</div>
-  </section>
-
-  <p class="footer">カウントはこのページ内だけで行います。入力内容は外部送信しません。<br>ログイン・外部API・広告なし。</p>
+<p class="footer">カウントはこのページ内だけで行います。入力内容は外部送信しません。<br>ログイン・外部API・広告なし。</p>
 </main>
 
 <div id="toast" class="toast"></div>
@@ -214,6 +228,8 @@
     $("#wordCount").textContent=words.toLocaleString();
     $("#paragraphCount").textContent=paragraphs.toLocaleString();
     $("#byteCount").textContent=bytes(t).toLocaleString();
+    $("#b6Pages").textContent=(all ? Math.ceil(all/570) : 0).toLocaleString();
+    $("#a5Pages").textContent=(all ? Math.ceil(all/680) : 0).toLocaleString();
 
     const g=Math.max(1,Number(goal.value)||1000);
     const pct=Math.min(100,(all/g)*100);
