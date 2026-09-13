@@ -42,7 +42,7 @@
       padding:7px 14px;border:1px solid var(--line);border-radius:999px;
       background:rgba(255,255,255,.76);color:#526c89;font-weight:800;font-size:13px;
     }
-    h1{font-size:clamp(31px,8vw,46px);line-height:1.15;margin:12px 0 6px}
+    h1{font-size:clamp(24px,6vw,46px);line-height:1.15;margin:12px 0 6px;white-space:nowrap;letter-spacing:-.035em}
     .subtitle{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
     .card{
       background:rgba(255,255,255,.95);
@@ -74,15 +74,6 @@
     }
     .counter .label{display:block;color:var(--muted);font-size:11px;font-weight:700;margin-bottom:5px}
     .counter b{font-size:26px;line-height:1.1}
-    .goal-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-top:12px}
-    .goal-input{
-      width:100%;min-width:0;border:1px solid var(--line);border-radius:13px;
-      padding:10px 12px;background:#fff;color:var(--ink);outline:none
-    }
-    .goal-label{font-size:12px;color:var(--muted)}
-    .progress{height:11px;background:#e5eef6;border-radius:999px;overflow:hidden;margin-top:9px}
-    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--blue2),var(--yellow));transition:width .2s}
-    .progress-text{margin-top:6px;font-size:12px;color:var(--muted)}
     .formats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .format{
       border:1px solid var(--line);border-radius:18px;background:#fff;padding:16px;
@@ -181,17 +172,7 @@
         <div class="page-value"><b id="a5Pages">0</b><span>ページ</span></div>
       </div>
     </div>
-
-    <div class="goal-row">
-      <div>
-        <div class="goal-label">🎯 目標文字数</div>
-        <input id="goalInput" class="goal-input" type="number" min="1" step="100" value="1000">
-      </div>
-      <button id="goalReset" class="tool">1000字に戻す</button>
-    </div>
-    <div class="progress"><div id="goalBar" class="bar"></div></div>
-    <div id="goalText" class="progress-text">0 / 1000字</div>
-  </section>
+</section>
 <p class="footer">カウントはこのページ内だけで行います。入力内容は外部送信しません。<br>ログイン・外部API・広告なし。</p>
 </main>
 
@@ -200,7 +181,7 @@
 <script>
 (()=>{
   const $=s=>document.querySelector(s);
-  const input=$("#textInput"), goal=$("#goalInput");
+  const input=$("#textInput");
 
   const cpLen=s=>Array.from(s).length;
   const bytes=s=>new TextEncoder().encode(s).length;
@@ -231,14 +212,9 @@
     $("#b6Pages").textContent=(all ? Math.ceil(all/570) : 0).toLocaleString();
     $("#a5Pages").textContent=(all ? Math.ceil(all/680) : 0).toLocaleString();
 
-    const g=Math.max(1,Number(goal.value)||1000);
-    const pct=Math.min(100,(all/g)*100);
-    $("#goalBar").style.width=pct+"%";
-    $("#goalText").textContent=`${all.toLocaleString()} / ${g.toLocaleString()}字（${Math.round(pct)}%）`;
   }
 
   input.addEventListener("input",render);
-  goal.addEventListener("input",render);
 
   $("#clearBtn").onclick=()=>{
     if(!input.value)return;
@@ -256,8 +232,6 @@
       toast("コピーしたよ 📋");
     }
   };
-
-  $("#goalReset").onclick=()=>{goal.value=1000;render()};
 
   render();
 
